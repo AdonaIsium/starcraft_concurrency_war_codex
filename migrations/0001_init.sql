@@ -1,0 +1,41 @@
+-- Migration: initialize schema for players, squads, units, and world snapshots
+-- What to implement:
+-- - Players table with id (uuid), name, created_at
+-- - Squads table with id (uuid), player_id (fk), name, position_x, position_y, created_at
+-- - Units table with id (uuid), squad_id (fk), type, hp, attack, range, vision, pos_x, pos_y, created_at
+-- - World snapshots table (optional) with tick number and snapshot JSONB
+-- - Indexes on foreign keys and frequently queried fields
+-- Example (PostgreSQL pseudocode):
+-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- CREATE TABLE players (
+--   id UUID PRIMARY KEY,
+--   name TEXT NOT NULL,
+--   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+-- );
+-- CREATE TABLE squads (
+--   id UUID PRIMARY KEY,
+--   player_id UUID NOT NULL REFERENCES players(id),
+--   name TEXT NOT NULL,
+--   position_x INT NOT NULL,
+--   position_y INT NOT NULL,
+--   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+-- );
+-- CREATE TABLE units (
+--   id UUID PRIMARY KEY,
+--   squad_id UUID NOT NULL REFERENCES squads(id),
+--   type TEXT NOT NULL,
+--   hp INT NOT NULL,
+--   attack INT NOT NULL,
+--   range INT NOT NULL,
+--   vision INT NOT NULL,
+--   pos_x INT NOT NULL,
+--   pos_y INT NOT NULL,
+--   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+-- );
+-- CREATE TABLE world_snapshots (
+--   id BIGSERIAL PRIMARY KEY,
+--   tick BIGINT NOT NULL,
+--   snapshot JSONB NOT NULL,
+--   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+-- );
+
